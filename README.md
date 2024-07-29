@@ -13,12 +13,6 @@ This project shows how to deploy an Alpine pod with stress-ng to simulate load a
 - [Prerequisites](#prerequisites)
 - [Basic Configuration of Minikube](#basic-configuration-of-minikube)
 - [Setup](#setup)
-  - [Clone the Repository](#clone-the-repository)
-  - [Deploy the Stress Testing Pods](#deploy-the-stress-testing-pods)
-  - [Create the HPA](#create-the-hpa)
-  - [Install Metrics Server](#install-metrics-server)
-  - [Start Stress Testing](#start-stress-testing)
-  - [Monitor Changes](#monitor-changes)
 - [Troubleshooting](#troubleshooting)
 - [License](#license)
 
@@ -38,11 +32,11 @@ Before starting, ensure you have the following:
 
 If you decide to use Minikube, follow these steps to set up your environment:
 
-1. **Start Minikube:**
+1. **Start Minikube**:
    ```bash
    minikube start
    ```
-2. **Enable Metrics Server:**
+2. **Enable Metrics Server**:
    Enable the metrics server addon within Minikube:
    ```bash
    minikube addons enable metrics-server
@@ -50,33 +44,37 @@ If you decide to use Minikube, follow these steps to set up your environment:
 
 ## Setup
 
-**Important Note:** During the setup process, it is crucial to apply the manifests in the correct order, one by one, to ensure proper configuration.
+**Important Note**: During the setup process, it is crucial to apply the manifests in the correct order, one by one, to ensure proper configuration.
 
-1. **Clone the Repository:**
+1. **Clone the Repository**:
    ```bash
    git clone https://github.com/your-username/k8s-stress-testing.git
    cd k8s-stress-testing
    ```
 
-2. **Deploy the Stress Testing Pod:**
+2. **Deploy the Stress Testing Pod**:
+   
    Apply the Deployment manifest to create the stress testing pods:
    ```bash
    kubectl apply -f stress-test-deployment.yaml
    ```
 
-3. **Create the HPA:**
+3. **Create the HPA**:
+   
    Apply the HPA manifest to set up autoscaling:
    ```
    kubectl apply -f stress-test-hpa.yaml
    ```
 
-4. **Install Metrics Server(Optional):**
+4. **Install Metrics Server(Optional)**:
+   
    If you have not enabled the metrics server yet, run:
    ```bash
    minikube addons enable metrics-server
    ```
 
-5. **Start Stress Testing:**
+5. **Start Stress Testing**:
+   
    First, retrieve the name of the stress pod:
    ```bash
    kubectl get pods -l app=stress-test-deployment
@@ -92,7 +90,7 @@ If you decide to use Minikube, follow these steps to set up your environment:
    - `--vm-bytes 128M`: Allocate 128 MB of memory to each virtual memory stressor.
    - `--timeout 300s`: Run the stress test for 300 seconds (5 minutes).
 
-   For more details on these parameters and to customize the stress test, refer to the official [stress-ng documentation](https://man7.org/linux/man-pages/man1/stress-ng.1.html).
+   For more details on these parameters and to customize the stress test, refer to the official [stress-ng documentation](https://github.com/ColinIanKing/stress-ng).
 
 6. ## Monitor Changes
 
@@ -104,3 +102,20 @@ If you decide to use Minikube, follow these steps to set up your environment:
    kubectl get hpa
    ```
 
+## Troubleshooting
+
+- **Metrics Server Issues**: If the metrics server is not functioning, try restarting Minikube or manually redeploying the metrics server:
+
+  ```bash
+  minikube delete
+  minikube start
+  ```
+  Or restart the metrics server deployment:
+  ```bash
+  kubectl rollout restart deployment/metrics-server -n kube-system
+  ```
+- **HPA Not Scaling**: HPA Not Scaling: Ensure that metrics are being collected properly and check the HPA configuration for correct target utilization values.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
