@@ -10,9 +10,17 @@ This project shows how to deploy an Alpine pod with stress-ng to simulate load a
 
 ## Table of Contents
 
+## Table of Contents
+
 - [Prerequisites](#prerequisites)
 - [Basic Configuration of Minikube](#basic-configuration-of-minikube)
 - [Setup](#setup)
+  - [Clone the Repository](#clone-the-repository)
+  - [Deploy the Stress Testing Pods](#deploy-the-stress-testing-pods)
+  - [Create the HPA](#create-the-hpa)
+  - [Install Metrics Server](#install-metrics-server-optional)
+  - [Start Stress Testing](#start-stress-testing)
+  - [Monitor Changes](#monitor-changes)
 - [Troubleshooting](#troubleshooting)
 - [License](#license)
 
@@ -92,7 +100,7 @@ If you decide to use Minikube, follow these steps to set up your environment:
 
    For more details on these parameters and to customize the stress test, refer to the official [stress-ng documentation](https://github.com/ColinIanKing/stress-ng).
 
-6. ## Monitor Changes
+6. **Monitor Changes**:
 
    Observe the scaling behavior and resource utilization with the following commands:
 
